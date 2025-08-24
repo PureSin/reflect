@@ -1,0 +1,14 @@
+{
+  "total_models_analyzed": 14,
+  "models_with_sentiment_data": 4,
+  "models_under_4gb": 14,
+  "low_resource_compatible": 12,
+  "best_sentiment_model": [
+    "gemma-2-2b-it-q4f32_1",
+    62.62
+  ],
+  "smallest_model": [
+    "SmolLM2-360M-Instruct-q4f32_1",
+    0.58
+  ]
+}

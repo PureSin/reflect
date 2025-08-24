@@ -1,0 +1,18 @@
+
+WEBLLM MODEL ANALYSIS SUMMARY
+============================
+
+Total Models Analyzed: 14
+Models with Sentiment Benchmarks: 4
+Models Under 4GB: 14
+Low-Resource Compatible Models: 12
+
+Best Sentiment Performance: gemma-2-2b-it-q4f32_1 (62.6% F1)
+Smallest Model: SmolLM2-360M-Instruct-q4f32_1 (0.58GB)
+
+Key Insights:
+- Gemma-2-2B shows the best sentiment analysis performance (62.62% F1)
+- TinyLlama is the most compact but has lower accuracy (45.18% F1)
+- Qwen2.5-1.5B offers good balance of size (1.89GB) and performance (58.29% F1)
+- All Llama 3.2 models lack sentiment-specific benchmarks but show strong instruction following
+- SmolLM models are extremely compact but lack sentiment benchmarks

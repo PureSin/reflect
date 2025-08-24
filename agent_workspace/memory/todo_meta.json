@@ -1,0 +1,27 @@
+{
+  "todos": {
+    "Coordinator": {
+      "1": {
+        "id": "1",
+        "content": "Implement Weekly Summary Generation System",
+        "details": "Create AI-powered weekly summaries that combine all entries from each week into a cohesive narrative with themes, notable moments, and emotional arcs. This includes:\n1. Database schema for weekly summaries\n2. AI service integration for summary generation\n3. Weekly summary analysis (AI analysis of the summary itself)\n4. Batch processing workflow integration",
+        "status": "completed",
+        "priority": "high"
+      },
+      "2": {
+        "id": "2",
+        "content": "Calendar View Integration for Weekly Summaries",
+        "details": "Update the calendar view to display and provide access to weekly summaries:\n1. Visual indicators for weeks with summaries\n2. UI to access weekly summaries from calendar\n3. Week-level navigation and display\n4. Integration with existing hover and color coding systems",
+        "status": "completed",
+        "priority": "high"
+      },
+      "3": {
+        "id": "3",
+        "content": "Update Batch Analysis Workflow",
+        "details": "Modify the existing 'Analyze All Entries' functionality to include weekly summary generation:\n1. Process individual entries first\n2. Generate weekly summaries for weeks with analyzed entries\n3. Analyze the weekly summaries with AI\n4. Update progress indicators and user feedback",
+        "status": "completed",
+        "priority": "high"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+Model,Parameters,VRAM (MB),File Size (GB),Context Length,Quantization,Low Resource,Sentiment F1,Instruction Following,Under 4GB,Sentiment Score
+Llama-3.2-1B,1.23B,879.04,0.88,4096,q4f16_1,Yes,N/A,59.5,Yes,
+Llama-3.2-1B,1.23B,1128.82,1.13,4096,q4f32_1,Yes,N/A,59.5,Yes,
+Llama-3.2-3B,3.21B,2263.69,2.26,4096,q4f16_1,Yes,N/A,59.5,Yes,
+SmolLM2-135M,135M,719.38,0.72,4096,q0f32,Yes,N/A,N/A,Yes,
+SmolLM2-360M,360M,579.61,0.58,4096,q4f32_1,Yes,N/A,N/A,Yes,
+SmolLM2-1.7B,1.7B,2692.38,2.69,4096,q4f32_1,Yes,N/A,N/A,Yes,
+Phi-3.5-mini-instruct,3.8B,3672.07,3.67,4096,q4f16_1,No,N/A,61.4,Yes,
+Phi-3.5-mini-instruct,3.8B,2520.07,2.52,1024,q4f16_1,Yes,N/A,61.4,Yes,
+Qwen2.5-0.5B,0.5B,1060.2,1.06,4096,q4f32_1,Yes,N/A,N/A,Yes,
+Qwen2.5-1.5B,1.5B,1888.97,1.89,4096,q4f32_1,Yes,58.29,N/A,Yes,58.29
+Qwen2.5-3B,3B,2893.64,2.89,4096,q4f32_1,Yes,N/A,N/A,Yes,
+gemma-2-2b-it,2.6B,2508.75,2.51,4096,q4f32_1,No,62.62,N/A,Yes,62.62
+gemma-2-2b-it,2.6B,1884.75,1.88,1024,q4f32_1,Yes,62.62,N/A,Yes,62.62
+TinyLlama-1.1B-Chat-v1.0,1.1B,839.98,0.84,2048,q4f32_1,Yes,45.18,N/A,Yes,45.18
