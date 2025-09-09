@@ -22,7 +22,7 @@ A privacy-focused, local-first journaling application built with React, TypeScri
 
 ## 🚀 Live Demo
 
-**Deployed Application**: [https://ycxs2cykult0.space.minimax.io](https://ycxs2cykult0.space.minimax.io)
+**Deployed Application**: [https://reflect.kelvin.ma/](https://reflect.kelvin.ma/)
 
 ## 🛠 Technology Stack
 
