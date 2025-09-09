@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-The main application is located in `agent_workspace/reflect-journal/`. Navigate there before running commands.
+The main application is now located in the root directory.
 
 ### Core Development
 - `pnpm run dev` - Start development server
@@ -19,7 +19,7 @@ All commands automatically run `pnpm install` first. Use pnpm as the package man
 ## Architecture Overview
 
 ### Application Structure
-This is a privacy-focused, local-first journaling application built with React 18, TypeScript, and Vite. The core app is in `agent_workspace/reflect-journal/`.
+This is a privacy-focused, local-first journaling application built with React 18, TypeScript, and Vite.
 
 ### Key Technical Decisions
 - **Local-First Storage**: All data stored in IndexedDB via Dexie.js - no external servers
