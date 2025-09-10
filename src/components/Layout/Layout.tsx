@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BookOpen, Calendar, Settings, Home, Download, Upload, BarChart, FileText } from 'lucide-react';
+import { BookOpen, Calendar, Settings, Home, Download, Upload, BarChart, FileText, Github } from 'lucide-react';
 import { usePreferences } from '../../hooks/usePreferences';
 import { themeUtils, cn } from '../../lib/utils';
 import { Link, useLocation } from 'react-router-dom';
@@ -179,6 +179,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
             <div>Local-first journaling</div>
             <div className="mt-1">Your data stays private</div>
+            <a 
+              href="https://github.com/PureSin/reflect" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center space-x-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+            >
+              <Github className="w-3 h-3" />
+              <span>GitHub</span>
+            </a>
           </div>
         </div>
       </div>
