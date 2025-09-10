@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BookOpen, Calendar, Settings, Home, Download, Upload, BarChart, FileText } from 'lucide-react';
+import { BookOpen, Calendar, Settings, Home, Download, Upload, BarChart, FileText, Github, MessageSquare } from 'lucide-react';
 import { usePreferences } from '../../hooks/usePreferences';
 import { themeUtils, cn } from '../../lib/utils';
 import { Link, useLocation } from 'react-router-dom';
@@ -172,6 +172,19 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               })}
             </div>
           </div>
+
+          {/* Feedback Button */}
+          <div className="mt-4 px-3">
+            <a
+              href="https://github.com/PureSin/reflect/issues/new?template=bug_report.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            >
+              <MessageSquare className="mr-3 h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors" />
+              File Feedback
+            </a>
+          </div>
         </nav>
 
         {/* Footer */}
@@ -179,6 +192,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
             <div>Local-first journaling</div>
             <div className="mt-1">Your data stays private</div>
+            <a 
+              href="https://github.com/PureSin/reflect" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center space-x-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+            >
+              <Github className="w-3 h-3" />
+              <span>GitHub</span>
+            </a>
           </div>
         </div>
       </div>
