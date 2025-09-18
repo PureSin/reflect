@@ -21,8 +21,20 @@ export const HomePage: React.FC = () => {
     if (dateParam) {
       // Parse YYYY-MM-DD format and ensure we stay in local timezone
       const [year, month, day] = dateParam.split('-').map(Number);
+      
+      // Validate the parsed values
+      if (isNaN(year) || isNaN(month) || isNaN(day)) {
+        return new Date(); // fallback to today if parsing fails
+      }
+      
       // Create date at noon local time to avoid any timezone edge cases
       const date = new Date(year, month - 1, day, 12, 0, 0, 0);
+      
+      // Check if the created date is valid
+      if (isNaN(date.getTime())) {
+        return new Date(); // fallback to today if date is invalid
+      }
+      
       return date;
     }
     return new Date(); // default to today
