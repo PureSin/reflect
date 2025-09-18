@@ -63,7 +63,14 @@ class CalendarWeeklySummaryService {
    * Generate a consistent key for week identification
    */
   getWeekKey(weekStart: Date, weekEnd: Date): string {
-    return `${weekStart.toISOString().split('T')[0]}_${weekEnd.toISOString().split('T')[0]}`;
+    // Use local timezone for consistent week keys
+    const startYear = weekStart.getFullYear();
+    const startMonth = String(weekStart.getMonth() + 1).padStart(2, '0');
+    const startDay = String(weekStart.getDate()).padStart(2, '0');
+    const endYear = weekEnd.getFullYear();
+    const endMonth = String(weekEnd.getMonth() + 1).padStart(2, '0');
+    const endDay = String(weekEnd.getDate()).padStart(2, '0');
+    return `${startYear}-${startMonth}-${startDay}_${endYear}-${endMonth}-${endDay}`;
   }
   
   /**
