@@ -13,6 +13,13 @@ The main application is now located in the root directory.
 - `pnpm run lint` - Run ESLint code linting
 - `pnpm run preview` - Preview production build
 
+### Testing
+- `pnpm run test` - Run unit and component tests
+- `pnpm run test:ui` - Interactive test UI with Vitest
+- `pnpm run test:coverage` - Generate test coverage report
+- `pnpm run test:e2e` - Run end-to-end tests with Playwright
+- `pnpm run test:e2e:ui` - Interactive E2E test runner
+
 ### Dependencies
 All commands automatically run `pnpm install` first. Use pnpm as the package manager (not npm).
 
@@ -82,3 +89,42 @@ This is a privacy-focused, local-first journaling application built with React 1
 - Main types in `src/types/index.ts`
 - AI-specific types in `src/types/ai.types.ts`
 - Weekly summary types in `src/types/weekly.types.ts`
+
+## Testing Architecture
+
+### Testing Framework
+- **Vitest** - Fast unit testing with TypeScript support and jsdom environment
+- **React Testing Library** - Component testing with user interaction simulation
+- **Playwright** - End-to-end testing across Chrome, Firefox, and Safari
+- **MSW** - Mock Service Worker for API and dependency mocking
+
+### Test Structure
+```
+src/test/
+├── components/          # Component tests
+│   ├── Editor.simple.test.tsx
+│   └── Calendar.simple.test.tsx
+├── services/           # Service layer tests
+│   ├── database.simple.test.ts
+│   ├── llmService.test.ts
+│   ├── sentimentService.test.ts
+│   └── searchService.test.ts
+└── setup.ts           # Global test configuration
+
+e2e/
+└── journal-workflow.spec.ts  # End-to-end user journeys
+```
+
+### Testing Guidelines
+- **Unit Tests**: Focus on individual service methods and utilities
+- **Component Tests**: Test rendering, props, and user interactions
+- **Integration Tests**: Test component integration with services
+- **E2E Tests**: Test complete user workflows and cross-browser compatibility
+- **Mocking**: All external dependencies (IndexedDB, WebLLM, TipTap) are mocked
+- **Coverage**: Aim for critical path coverage of database, AI, and editor functionality
+
+### Running Tests
+- Use `pnpm run test` for quick feedback during development
+- Use `pnpm run test:coverage` to identify untested code
+- Use `pnpm run test:e2e` before releases to verify user workflows
+- Tests automatically run with proper mocking of browser APIs (IndexedDB, WebGPU, Speech Recognition)

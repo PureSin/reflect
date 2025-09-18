@@ -136,10 +136,19 @@ pnpm run build
 ```
 
 ### Available Scripts
+
+#### Development
 - `pnpm run dev` - Start development server
 - `pnpm run build` - Build for production
 - `pnpm run preview` - Preview production build
 - `pnpm run lint` - Run ESLint
+
+#### Testing
+- `pnpm run test` - Run unit and component tests
+- `pnpm run test:ui` - Interactive test UI with Vitest
+- `pnpm run test:coverage` - Generate test coverage report
+- `pnpm run test:e2e` - Run end-to-end tests with Playwright
+- `pnpm run test:e2e:ui` - Interactive E2E test runner
 
 ## 🏗 Architecture Decisions
 
@@ -161,6 +170,37 @@ pnpm run build
 - Background sync (future enhancement)
 - Service worker for caching
 
+## 🧪 Testing
+
+### Test Coverage
+The application includes comprehensive testing across multiple layers:
+
+- **Unit Tests**: Service layer functions (database, AI, search)
+- **Component Tests**: UI components with user interaction simulation
+- **Integration Tests**: Page-level functionality and workflows
+- **End-to-End Tests**: Complete user journeys across browsers
+
+### Testing Technologies
+- **Vitest** - Fast unit testing with TypeScript support
+- **React Testing Library** - Component testing with accessibility focus
+- **Playwright** - Cross-browser E2E testing (Chrome, Firefox, Safari)
+- **MSW** - Mock Service Worker for dependency isolation
+
+### Running Tests
+```bash
+# Run all unit and component tests
+pnpm run test
+
+# Interactive test UI for development
+pnpm run test:ui
+
+# Generate coverage report
+pnpm run test:coverage
+
+# End-to-end tests across browsers
+pnpm run test:e2e
+```
+
 ## 🔒 Privacy & Security
 
 - **No Data Collection**: All data stays on your device
@@ -171,7 +211,8 @@ pnpm run build
 ## 📋 Feature Roadmap
 
 ### Near Term
-- [ ] Search functionality across all entries
+- [x] Search functionality across all entries
+- [x] Comprehensive testing suite (unit, component, E2E)
 - [ ] Tag management and filtering
 - [ ] Mood tracking with analytics
 - [ ] Entry templates
