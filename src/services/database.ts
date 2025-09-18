@@ -117,17 +117,14 @@ export const dbService = {
   },
 
   async getEntryByDate(date: Date): Promise<Entry | undefined> {
-    const dateKey = date.toISOString().split('T')[0];
+    // Create proper local date boundaries to avoid timezone issues
+    const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+    const endOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
     
     // Use targetDate to find entries for the specific date
     const entries = await db.entries
       .where('targetDate')
-      .between(
-        new Date(dateKey + 'T00:00:00.000Z'),
-        new Date(dateKey + 'T23:59:59.999Z'),
-        true,
-        true
-      )
+      .between(startOfDay, endOfDay, true, true)
       .toArray();
     
     return entries[0]; // Return first entry for the day
@@ -177,7 +174,11 @@ export const dbService = {
     
     // Process each entry and fetch its AI analysis if available
     for (const entry of entries) {
-      const dateKey = entry.targetDate.toISOString().split('T')[0];
+      // Use local timezone for consistent date keys
+      const year = entry.targetDate.getFullYear();
+      const month = String(entry.targetDate.getMonth() + 1).padStart(2, '0');
+      const day = String(entry.targetDate.getDate()).padStart(2, '0');
+      const dateKey = `${year}-${month}-${day}`;
       const aiAnalysis = await this.getAIAnalysisForEntry(entry.id);
       
       calendarData.set(dateKey, {
@@ -456,7 +457,14 @@ export const dbService = {
     
     entries.forEach(entry => {
       const { weekStartDate, weekEndDate } = this.getWeekBounds(entry.targetDate);
-      const weekKey = `${weekStartDate.toISOString()}-${weekEndDate.toISOString()}`;
+      // Use local timezone for consistent week keys
+      const startYear = weekStartDate.getFullYear();
+      const startMonth = String(weekStartDate.getMonth() + 1).padStart(2, '0');
+      const startDay = String(weekStartDate.getDate()).padStart(2, '0');
+      const endYear = weekEndDate.getFullYear();
+      const endMonth = String(weekEndDate.getMonth() + 1).padStart(2, '0');
+      const endDay = String(weekEndDate.getDate()).padStart(2, '0');
+      const weekKey = `${startYear}-${startMonth}-${startDay}-${endYear}-${endMonth}-${endDay}`;
       
       if (!weekMap.has(weekKey)) {
         weekMap.set(weekKey, {

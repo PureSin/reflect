@@ -18,7 +18,7 @@ export const CalendarPage: React.FC = () => {
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
     // Navigate to create new entry for this date
-    navigate(`/entry/new?date=${dateUtils.getDateKey(date)}`);
+    navigate(`/?date=${dateUtils.getDateKey(date)}`);
   };
 
   const handleEntryClick = (entry: Entry) => {
