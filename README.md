@@ -1,5 +1,9 @@
 # Reflect - Personal Journal
 
+[![CI](https://github.com/PureSin/reflect/workflows/CI/badge.svg)](https://github.com/PureSin/reflect/actions)
+[![codecov](https://codecov.io/gh/PureSin/reflect/branch/main/graph/badge.svg)](https://codecov.io/gh/PureSin/reflect)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A privacy-focused, local-first journaling application built with React, TypeScript, and modern web technologies. All your journal entries are stored locally on your device, ensuring complete privacy.
 
 ## 🌟 Features
