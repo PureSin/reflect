@@ -11,6 +11,49 @@ export interface ModelConfig {
   max_tokens: number;
 }
 
+// Model tier options for different device capabilities
+export type ModelTier = 'lite' | 'balanced' | 'performance';
+
+export interface ModelOption {
+  id: string;
+  tier: ModelTier;
+  label: string;
+  description: string;
+  vram: string;
+  downloadSize: string;
+  default?: boolean;
+}
+
+export const MODEL_OPTIONS: ModelOption[] = [
+  {
+    id: 'SmolLM2-1.7B-Instruct-q4f16_1-MLC',
+    tier: 'lite',
+    label: 'Lite',
+    description: 'Phone / low-power device',
+    vram: '~1.1 GB',
+    downloadSize: '~1.1 GB',
+  },
+  {
+    id: 'Qwen2.5-1.5B-Instruct-q4f32_1-MLC',
+    tier: 'balanced',
+    label: 'Balanced',
+    description: 'Mac Mini M4, budget laptop',
+    vram: '~1.8 GB',
+    downloadSize: '~1.8 GB',
+    default: true,
+  },
+  {
+    id: 'Qwen2.5-3B-Instruct-q4f32_1-MLC',
+    tier: 'performance',
+    label: 'Performance',
+    description: 'Medium laptop (4–8 GB GPU)',
+    vram: '~3.2 GB',
+    downloadSize: '~3.2 GB',
+  },
+];
+
+export const DEFAULT_MODEL = MODEL_OPTIONS.find(m => m.default)!;
+
 // Loading States for WebLLM Model
 export interface LoadingState {
   isLoading: boolean;
