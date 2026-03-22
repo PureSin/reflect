@@ -19,11 +19,13 @@ interface WorkerResponse {
   payload?: any;
 }
 
+const DEFAULT_MODEL_ID = 'Qwen2.5-1.5B-Instruct-q4f32_1-MLC';
+
 class AIWorker {
   private engine: webllm.MLCEngine | null = null;
   private modelConfig = {
-    model: 'Qwen2.5-1.5B-Instruct-q4f32_1-MLC',
-    model_id: 'Qwen2.5-1.5B-Instruct-q4f32_1-MLC',
+    model: DEFAULT_MODEL_ID,
+    model_id: DEFAULT_MODEL_ID,
     temperature: 0.7,
     max_tokens: 1000
   };
@@ -45,7 +47,7 @@ class AIWorker {
           break;
 
         case 'LOAD_MODEL':
-          await this.loadModel(id);
+          await this.loadModel(id, payload);
           break;
 
         case 'CHAT_COMPLETION':
@@ -93,11 +95,23 @@ class AIWorker {
     }
   }
 
-  private async loadModel(requestId: string): Promise<void> {
-    if (this.engine) {
+  private async loadModel(requestId: string, payload?: { modelId?: string }): Promise<void> {
+    const modelId = payload?.modelId ?? DEFAULT_MODEL_ID;
+
+    // If already loaded with the same model, skip
+    if (this.engine && this.modelConfig.model === modelId) {
       this.postResponse('SUCCESS', { loaded: true }, requestId);
       return;
     }
+
+    // If a different model is loaded, unload first
+    if (this.engine) {
+      this.engine = null;
+    }
+
+    // Update config to the requested model
+    this.modelConfig.model = modelId;
+    this.modelConfig.model_id = modelId;
 
     try {
       // Check WebGPU support first
@@ -106,8 +120,8 @@ class AIWorker {
         throw new Error('WebGPU not supported in this environment');
       }
 
-      this.postResponse('PROGRESS', { 
-        progress: 10, 
+      this.postResponse('PROGRESS', {
+        progress: 10,
         stage: 'checking-support',
         isLoading: true,
         error: null
@@ -116,10 +130,10 @@ class AIWorker {
       // Initialize the WebLLM engine with progress callback
       const initProgressCallback = (report: any) => {
         console.log('Model loading progress:', report);
-        
+
         let progress = 10;
         let stage = 'initializing';
-        
+
         if (report.text.includes('fetching')) {
           progress = 20 + (report.progress || 0) * 0.5; // 20-70%
           stage = 'downloading';
@@ -130,7 +144,7 @@ class AIWorker {
           progress = 90 + (report.progress || 0) * 0.1; // 90-100%
           stage = 'compiling';
         }
-        
+
         this.postResponse('PROGRESS', {
           progress: Math.min(progress, 100),
           stage,
@@ -141,7 +155,7 @@ class AIWorker {
 
       // Create and initialize the engine
       this.engine = await webllm.CreateMLCEngine(
-        this.modelConfig.model,
+        modelId,
         {
           initProgressCallback,
           logLevel: 'INFO'

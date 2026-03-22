@@ -1,4 +1,4 @@
-import { LoadingState, ModelConfig, ChatCompletion } from '../types/ai.types';
+import { LoadingState, ModelConfig, ChatCompletion, ModelOption, DEFAULT_MODEL } from '../types/ai.types';
 
 /**
  * Core service for managing WebLLM via Web Worker
@@ -7,6 +7,7 @@ import { LoadingState, ModelConfig, ChatCompletion } from '../types/ai.types';
 class LLMService {
   private worker: Worker | null = null;
   private modelConfig: ModelConfig;
+  private selectedModelId: string;
   private loadingState: LoadingState = {
     isLoading: false,
     progress: 0,
@@ -18,13 +19,33 @@ class LLMService {
   private messageCounter = 0;
 
   constructor() {
+    this.selectedModelId = DEFAULT_MODEL.id;
     this.modelConfig = {
-      model: 'Qwen2.5-1.5B-Instruct-q4f32_1-MLC',
-      model_id: 'Qwen2.5-1.5B-Instruct-q4f32_1-MLC',
+      model: this.selectedModelId,
+      model_id: this.selectedModelId,
       temperature: 0.7,
       max_tokens: 1000
     };
     this.initializeWorker();
+  }
+
+  /**
+   * Set the model to use for the next load
+   */
+  setSelectedModel(option: ModelOption): void {
+    this.selectedModelId = option.id;
+    this.modelConfig = {
+      ...this.modelConfig,
+      model: option.id,
+      model_id: option.id,
+    };
+  }
+
+  /**
+   * Get the currently selected model ID
+   */
+  getSelectedModelId(): string {
+    return this.selectedModelId;
   }
 
   /**
@@ -142,7 +163,7 @@ class LLMService {
         error: null
       });
 
-      const result = await this.sendWorkerMessage('LOAD_MODEL');
+      const result = await this.sendWorkerMessage('LOAD_MODEL', { modelId: this.selectedModelId });
       
       if (result.loaded) {
         this.updateLoadingState({

@@ -1,24 +1,30 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
-import { LoadingState, ModelConfig } from '../types/ai.types';
+import { LoadingState, ModelConfig, ModelOption, MODEL_OPTIONS, DEFAULT_MODEL } from '../types/ai.types';
 import { llmService } from '../services/llmService';
+
+const SELECTED_MODEL_KEY = 'reflect-selected-model';
 
 interface LLMContextType {
   // Loading state
   loadingState: LoadingState;
   isModelReady: boolean;
-  
+
   // Model management
   loadModel: () => Promise<void>;
   unloadModel: () => Promise<void>;
-  
+
   // Analysis functions
   analyzeText: (prompt: string, systemPrompt?: string) => Promise<string>;
   chatCompletion: (messages: any[], options?: any) => Promise<string>;
-  
+
   // Configuration
   modelConfig: ModelConfig;
   updateModelConfig: (config: Partial<ModelConfig>) => void;
-  
+
+  // Model selection
+  selectedModel: ModelOption;
+  selectModel: (option: ModelOption) => void;
+
   // WebGPU support
   webGPUSupported: boolean | null;
   checkWebGPUSupport: () => Promise<boolean>;
@@ -40,8 +46,16 @@ export const LLMProvider: React.FC<LLMProviderProps> = ({ children }) => {
   const [isModelReady, setIsModelReady] = useState(false);
   const [webGPUSupported, setWebGPUSupported] = useState<boolean | null>(null);
   const [modelConfig, setModelConfig] = useState<ModelConfig>(llmService.getModelConfig());
+  const [selectedModel, setSelectedModel] = useState<ModelOption>(() => {
+    const stored = localStorage.getItem(SELECTED_MODEL_KEY);
+    if (stored) {
+      const found = MODEL_OPTIONS.find(m => m.id === stored);
+      if (found) return found;
+    }
+    return DEFAULT_MODEL;
+  });
 
-  // Set up progress callback
+  // Set up progress callback and sync persisted model selection
   useEffect(() => {
     llmService.setProgressCallback((state: LoadingState) => {
       setLoadingState(state);
@@ -51,6 +65,10 @@ export const LLMProvider: React.FC<LLMProviderProps> = ({ children }) => {
     // Initialize with current state
     setLoadingState(llmService.getLoadingState());
     setIsModelReady(llmService.isModelReady());
+
+    // Sync persisted model selection into service
+    llmService.setSelectedModel(selectedModel);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Check WebGPU support on mount
@@ -105,6 +123,13 @@ export const LLMProvider: React.FC<LLMProviderProps> = ({ children }) => {
     setModelConfig(llmService.getModelConfig());
   }, []);
 
+  const selectModel = useCallback((option: ModelOption) => {
+    setSelectedModel(option);
+    localStorage.setItem(SELECTED_MODEL_KEY, option.id);
+    llmService.setSelectedModel(option);
+    setModelConfig(llmService.getModelConfig());
+  }, []);
+
   const checkWebGPUSupport = useCallback(async () => {
     const supported = await llmService.checkWebGPUSupport();
     setWebGPUSupported(supported);
@@ -120,6 +145,8 @@ export const LLMProvider: React.FC<LLMProviderProps> = ({ children }) => {
     chatCompletion,
     modelConfig,
     updateModelConfig,
+    selectedModel,
+    selectModel,
     webGPUSupported,
     checkWebGPUSupport
   };
